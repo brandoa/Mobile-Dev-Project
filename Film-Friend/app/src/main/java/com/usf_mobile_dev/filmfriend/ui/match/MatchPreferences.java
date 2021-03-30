@@ -28,6 +28,9 @@ public class MatchPreferences implements Serializable {
     static final private Boolean WP_CB_INIT = false;
     // True = all checkboxes start as checked, False = unchecked
     static final private Boolean watch_providers_cb_init = true;
+    /*final private Boolean genre_cb_init = false;
+    // True = all checkboxes start as checked, False = unchecked
+    final private Boolean WP_CB_INIT = false;*/
 
     // The movie preferences
     private int release_year_start = 1850;
@@ -178,7 +181,6 @@ public class MatchPreferences implements Serializable {
     public HashMap<Integer, Boolean> getGenres_to_exclude() {
         return genres_to_exclude;
     }
-
 
     public void setGenres(List<GenreResponse.Genre> genres) {
         this.clearGenres();

@@ -19,10 +19,12 @@
         android:theme="@style/Theme.FilmFriend">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+
+            android:theme="@style/Theme.FilmFriend_NoBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -77,13 +79,12 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".SavePreferencesActivity"
-            android:label="Save Your Match Preferences!"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:name=".ui.settings.Settings"
+            android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action android:name="transparent.text.SETTINGS"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
-
 </manifest>
