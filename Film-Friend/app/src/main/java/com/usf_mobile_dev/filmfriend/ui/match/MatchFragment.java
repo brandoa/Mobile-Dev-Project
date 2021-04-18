@@ -11,12 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,13 +56,10 @@ public class MatchFragment extends Fragment {
     private MatchViewModel matchViewModel;
     private RecyclerView includedGenresGrid;
     private RecyclerView excludedGenresGrid;
-    private RecyclerView languagesGrid;
+    //private RecyclerView languagesGrid;
+    private Spinner languagesSpinner;
+    private String[] languagesArray;
 
-    final private String[] genres = {
-        "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama",
-        "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance",
-        "Sci-Fi", "TV Movie", "Thriller", "War", "Western"
-    };
     final private String[] watch_providers = {
         "Netflix", "Hulu", "Disney+", "Amazon Prime", "Google Play"
     };
@@ -410,21 +410,30 @@ public class MatchFragment extends Fragment {
         vote_count_max.setText(String.valueOf(qrMP.getVote_count_max()));
 
         // Sets the Language
-        boolean languageFound = false;
-        for (int i = 0; i < languagesGrid.getAdapter().getItemCount(); ++i) {
-            RadioButton rb =
-                    (RadioButton) languagesGrid.findViewHolderForAdapterPosition(i).itemView;
-            if (String.valueOf(rb.getText()).equals(
-                    matchViewModel.getLanguageFromID(qrMP.getSelected_language_code()))
-            ) {
-                rb.setChecked(true);
-                languageFound = true;
-                break;
+        int count = 0;
+        for(String language: matchViewModel.getLanguages_list().getValue())
+        {
+
+            if(language.equals(qrMP.getSelected_language_name())){
+                languagesSpinner.setSelection(count);
             }
+            count++;
         }
-        if(!languageFound){
-            matchViewModel.setSelectedLanguage("English");
-        }
+//        boolean languageFound = false;
+//        for (int i = 0; i < languagesGrid.getAdapter().getItemCount(); ++i) {
+//            RadioButton rb =
+//                    (RadioButton) languagesGrid.findViewHolderForAdapterPosition(i).itemView;
+//            if (String.valueOf(rb.getText()).equals(
+//                    matchViewModel.getLanguageFromID(qrMP.getSelected_language_code()))
+//            ) {
+//                rb.setChecked(true);
+//                languageFound = true;
+//                break;
+//            }
+//        }
+//        if(!languageFound){
+//            matchViewModel.setSelectedLanguage("English");
+//        }
     }
 
     public void setMoviePreferences() {
@@ -525,6 +534,36 @@ public class MatchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        languagesSpinner = view.findViewById(R.id.spinner_languages);
+        matchViewModel.getLanguages_list().observe(
+                getViewLifecycleOwner(),
+                new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> languages) {
+                        //Log.d("LANGUAGE","in OnChanged for languages");
+                        populateSpinnerLanguages();
+                    }
+                }
+        );
+        populateSpinnerLanguages();
+
+        languagesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                matchViewModel.setSelectedLanguage((String) adapterView.getItemAtPosition(i));
+                /*selectedLanguage = (String) adapterView.getItemAtPosition(i);
+                usersNearby.clear();
+
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));
+                discoverViewModel.getAllMoviesNearby(radius, requireActivity());
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         // Sets up the GridView for the included genres checkboxes
         includedGenresGrid = (RecyclerView)view.findViewById(R.id.included_genres_grid);
         GenresGridAdapter genresIncludedGridAdapter = new GenresGridAdapter(
@@ -577,43 +616,43 @@ public class MatchFragment extends Fragment {
                 });
 
         // Sets up the GridView for the languages radiobuttons grid
-        languagesGrid = (RecyclerView)view.findViewById(R.id.languages_recyclerview);
-        LanguagesGridAdapter languagesGridAdapter = new LanguagesGridAdapter(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        String language = buttonView.getText().toString();
-                        Log.d("LANGUAGE","in OnCheckedChanged " + language);
-                        if(isChecked && !matchViewModel.getSelectedLanguage()
-                                .getValue()
-                                .equals(language)) {
-                            matchViewModel.setSelectedLanguage(language);
-                        }
-                    }
-                }
-        );
-        languagesGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        languagesGrid.setAdapter(languagesGridAdapter);
-        matchViewModel.getLanguages().observe(
-                getViewLifecycleOwner(),
-                new Observer<List<LanguageResponse>>() {
-                    @Override
-                    public void onChanged(List<LanguageResponse> languageResponses) {
-                        //Log.d("LANGUAGE","in OnChanged for languages");
-                        languagesGridAdapter.setLanguages(languageResponses);
-                    }
-                }
-        );
-        matchViewModel.getSelectedLanguage().observe(
-                getViewLifecycleOwner(),
-                new Observer<String>() {
-                    @Override
-                    public void onChanged(String selectedLanguage) {
-                        Log.d("LANGUAGE","in OnChanged: " + selectedLanguage);
-                        languagesGridAdapter.setSelectedLanguage(selectedLanguage);
-                    }
-                }
-        );
+//        languagesGrid = (RecyclerView)view.findViewById(R.id.languages_recyclerview);
+//        LanguagesGridAdapter languagesGridAdapter = new LanguagesGridAdapter(
+//                new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        String language = buttonView.getText().toString();
+//                        Log.d("LANGUAGE","in OnCheckedChanged " + language);
+//                        if(isChecked && !matchViewModel.getSelectedLanguage()
+//                                .getValue()
+//                                .equals(language)) {
+//                            matchViewModel.setSelectedLanguage(language);
+//                        }
+//                    }
+//                }
+//        );
+//        languagesGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+//        languagesGrid.setAdapter(languagesGridAdapter);
+//        matchViewModel.getLanguages().observe(
+//                getViewLifecycleOwner(),
+//                new Observer<List<LanguageResponse>>() {
+//                    @Override
+//                    public void onChanged(List<LanguageResponse> languageResponses) {
+//                        //Log.d("LANGUAGE","in OnChanged for languages");
+//                        languagesGridAdapter.setLanguages(languageResponses);
+//                    }
+//                }
+//        );
+//        matchViewModel.getSelectedLanguage().observe(
+//                getViewLifecycleOwner(),
+//                new Observer<String>() {
+//                    @Override
+//                    public void onChanged(String selectedLanguage) {
+//                        Log.d("LANGUAGE","in OnChanged: " + selectedLanguage);
+//                        languagesGridAdapter.setSelectedLanguage(selectedLanguage);
+//                    }
+//                }
+//        );
 
         // Sets the UI to its default state
         matchViewModel.getMP().resetMatchPreference();
@@ -648,5 +687,17 @@ public class MatchFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void populateSpinnerLanguages() {
+        languagesArray = new String[matchViewModel.getLanguages_list().getValue().size()];
+        Log.d("SPINNER", String.valueOf(matchViewModel.getLanguages_list()));
+        languagesArray = matchViewModel.getLanguages_list().getValue().toArray(languagesArray);
+        ArrayAdapter<String> rangeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, languagesArray);
+        rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languagesSpinner.setAdapter(rangeAdapter);
+        languagesSpinner.setSelection(39);
+        matchViewModel.setSelectedLanguage("English");
+
     }
 }
