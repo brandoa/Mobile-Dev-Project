@@ -33,4 +33,24 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="standardListItem" parent="Theme.FilmFriend" >
+        <item name="android:layout_margin">@dimen/default_view_margins</item>
+    </style>
+
+    <style name="linearLayoutHorizontal" parent="Theme.FilmFriend" >
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="linearLayoutVertical" parent="Theme.FilmFriend" >
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="textviewVerticallyCentered" parent="Theme.FilmFriend" >
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_margin">@dimen/default_view_margins</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

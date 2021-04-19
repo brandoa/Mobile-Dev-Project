@@ -30,7 +30,6 @@
         <activity
             android:name=".ui.movieInfo.MovieInfoActivity"
             android:label="@string/movie_info_activity_label">
-
         </activity>
         <activity
             android:name=".ui.saved_preferences.ViewAllSavedPreferencesActivity"

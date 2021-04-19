@@ -1,444 +1,547 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/modify_match_preferences_layout"
-    android:layout_width="wrap_content"
+    style="@style/linearLayoutVertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/tut_button_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/release_date_end"
-        app:layout_constraintStart_toEndOf="@+id/release_date_end"
-        app:layout_constraintTop_toTopOf="@+id/release_date_end" />
-
-    <TextView
-        android:id="@+id/match_header_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/release_year_label"
-        app:layout_constraintBottom_toTopOf="@id/match_header_included_genre"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/release_date_end"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="To"
-        android:inputType="number"
-        android:maxLength="4"
-        app:layout_constraintBottom_toBottomOf="@+id/release_date_start"
-        app:layout_constraintStart_toEndOf="@+id/release_date_start"
-        app:layout_constraintTop_toTopOf="@+id/release_date_start" />
-
-    <EditText
-        android:id="@+id/release_date_start"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="From"
-        android:inputType="number"
-        android:maxLength="4"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_release_date"
-        app:layout_constraintStart_toEndOf="@+id/match_header_release_date"
-        app:layout_constraintTop_toTopOf="@+id/match_header_release_date" />
-
-
-    <ImageButton
-        android:id="@+id/tut_button_included_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_included_genre"
-        app:layout_constraintStart_toEndOf="@+id/match_header_included_genre"
-        app:layout_constraintTop_toTopOf="@+id/match_header_included_genre" />
-    <TextView
-        android:id="@+id/match_header_included_genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/genre_s_i_want_to_see"
-        app:layout_constraintBottom_toTopOf="@+id/included_genres_rellayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_release_date" />
-
-    <RelativeLayout
-        android:id="@+id/included_genres_rellayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_release_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/match_header_excluded_genre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_included_genre">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/included_genres_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:nestedScrollingEnabled="false"
-            android:padding="8dp" />
-
-    </RelativeLayout>
-
-    <ImageButton
-        android:id="@+id/tut_button_excluded_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_excluded_genre"
-        app:layout_constraintStart_toEndOf="@+id/match_header_excluded_genre"
-        app:layout_constraintTop_toTopOf="@+id/match_header_excluded_genre" />
-    <TextView
-        android:id="@+id/match_header_excluded_genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/genres_i_dont_want_to_see"
-        app:layout_constraintBottom_toTopOf="@+id/excluded_genres_rellayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/included_genres_rellayout" />
-
-    <RelativeLayout
-        android:id="@+id/excluded_genres_rellayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/match_header_rating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_excluded_genre">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/excluded_genres_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:nestedScrollingEnabled="false"
-            android:padding="8dp" />
-
-    </RelativeLayout>
-
-    <ImageButton
-        android:id="@+id/tut_button_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_rating"
-        app:layout_constraintStart_toEndOf="@+id/match_header_rating"
-        app:layout_constraintTop_toTopOf="@+id/match_header_rating" />
-    <TextView
-        android:id="@+id/match_header_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/rating_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/excluded_genres_rellayout" />
-
-    <TextView
-        android:id="@+id/match_header_rating_min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/min"
-        app:layout_constraintEnd_toEndOf="@+id/match_header_rating"
-        app:layout_constraintStart_toStartOf="@+id/match_header_rating"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_rating" />
-
-    <SeekBar
-        android:id="@+id/seekBar_rating_min"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="64dp"
-        android:max="100"
-        android:min="0"
-        android:progress="0"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_rating_min"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/match_header_rating_min"
-        app:layout_constraintTop_toTopOf="@+id/match_header_rating_min" />
-
-    <TextView
-        android:id="@+id/label_rating_min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/seekBar_rating_min"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar_rating_min"
-        app:layout_constraintLeft_toRightOf="@id/seekBar_rating_min"
-        android:layout_marginStart="16dp"
-        android:text="0.0"
-        />
-
-    <TextView
-        android:id="@+id/match_header_rating_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/max"
-        app:layout_constraintEnd_toEndOf="@+id/match_header_rating"
-        app:layout_constraintStart_toStartOf="@+id/match_header_rating"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_rating_min" />
-
-    <SeekBar
-        android:id="@+id/seekBar_rating_max"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="64dp"
-        android:max="100"
-        android:min="0"
-        android:progress="100"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_rating_max"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/match_header_rating_max"
-        app:layout_constraintTop_toTopOf="@+id/match_header_rating_max" />
-
-    <TextView
-        android:id="@+id/label_rating_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/seekBar_rating_max"
-        app:layout_constraintBottom_toBottomOf="@id/seekBar_rating_max"
-        app:layout_constraintRight_toRightOf="@id/label_rating_min"
-        android:text="10.0"
-        />
-
-    <ImageButton
-        android:id="@+id/tut_button_watch_providers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintTop_toBottomOf="@id/match_header_watch_providers"
-        app:layout_constraintEnd_toEndOf="@+id/match_header_watch_providers"
-        />
-    <TextView
-        android:id="@+id/match_header_watch_providers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/watch_providers"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_rating_max" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/match_header_watch_providers"
-        app:layout_constraintTop_toTopOf="@+id/match_header_watch_providers">
+        android:layout_margin="@dimen/default_view_margins">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            style="@style/linearLayoutHorizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:padding="@dimen/default_view_padding">
 
-            <CheckBox
-                android:id="@+id/wp_button_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:text="@string/netflix" />
+            <TextView
+                android:id="@+id/match_header_release_date"
+                style="@style/textviewVerticallyCentered"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:text="@string/release_year_label" />
 
-            <CheckBox
-                android:id="@+id/wp_button_1"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/release_date_end"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:text="@string/hulu" />
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="To"
+                android:inputType="number"
+                android:maxLength="4" />
 
-            <CheckBox
-                android:id="@+id/wp_button_2"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/release_date_start"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:text="@string/disney" />
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="From"
+                android:inputType="number"
+                android:maxLength="4" />
+
+            <ImageButton
+                android:id="@+id/tut_button_release_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    </androidx.cardview.widget.CardView>
 
-            <CheckBox
-                android:id="@+id/wp_button_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:text="@string/prime_video" />
-
-            <CheckBox
-                android:id="@+id/wp_button_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:text="@string/google_play" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/tut_button_runtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/runtime_max"
-        app:layout_constraintStart_toEndOf="@+id/runtime_max"
-        app:layout_constraintTop_toTopOf="@+id/runtime_max"
-        />
-    <TextView
-        android:id="@+id/match_header_runtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
-        android:text="@string/runtime_mins"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_watch_providers" />
-
-    <EditText
-        android:id="@+id/runtime_min"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="@string/min"
-        android:inputType="number"
-        android:maxLength="3"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_runtime"
-        app:layout_constraintStart_toEndOf="@+id/match_header_runtime"
-        app:layout_constraintTop_toTopOf="@+id/match_header_runtime" />
-
-    <EditText
-        android:id="@+id/runtime_max"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="@string/max"
-        android:inputType="number"
-        android:maxLength="3"
-        app:layout_constraintBottom_toBottomOf="@+id/runtime_min"
-        app:layout_constraintStart_toEndOf="@+id/runtime_min"
-        app:layout_constraintTop_toTopOf="@+id/runtime_min" />
-
-    <ImageButton
-        android:id="@+id/tut_button_vote_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/vote_count_max"
-        app:layout_constraintStart_toEndOf="@+id/vote_count_max"
-        app:layout_constraintTop_toTopOf="@+id/vote_count_max"
-        />
-    <TextView
-        android:id="@+id/match_header_vote_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/vote_count_label_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_runtime"
-        />
-
-    <EditText
-        android:id="@+id/vote_count_min"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="@string/min"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_vote_count"
-        app:layout_constraintStart_toEndOf="@+id/match_header_vote_count"
-        app:layout_constraintTop_toTopOf="@+id/match_header_vote_count" />
-
-    <EditText
-        android:id="@+id/vote_count_max"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="@string/max"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/vote_count_min"
-        app:layout_constraintStart_toEndOf="@+id/vote_count_min"
-        app:layout_constraintTop_toTopOf="@+id/vote_count_min"
-        />
-
-    <ImageButton
-        android:id="@+id/tut_button_language"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="@color/white"
-        android:onClick="launchTutorial"
-        android:src="@drawable/ic_tutorial"
-        app:layout_constraintBottom_toBottomOf="@+id/match_header_languages"
-        app:layout_constraintStart_toEndOf="@+id/match_header_languages"
-        app:layout_constraintTop_toTopOf="@+id/match_header_languages"
-        />
-    <TextView
-        android:id="@+id/match_header_languages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/language_label"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vote_count_max"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/languages_recyclerview"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_included_genres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/match_header_languages" />
+        android:layout_margin="@dimen/default_view_margins">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            style="@style/linearLayoutVertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_view_padding"
+            android:paddingBottom="@dimen/default_view_padding">
+
+            <LinearLayout
+                style="@style/linearLayoutHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_view_padding">
+
+                <TextView
+                    android:id="@+id/match_header_included_genre"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="11"
+                    android:text="@string/genres_i_want_to_see" />
+
+                <ImageButton
+                    android:id="@+id/tut_button_included_genres"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_view_margins"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:onClick="launchTutorial"
+                    android:src="@drawable/ic_tutorial" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/included_genres_rellayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/default_view_padding"
+                android:paddingEnd="@dimen/default_view_padding"
+                android:paddingBottom="@dimen/default_view_padding">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/included_genres_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_view_margins"
+                    android:layout_marginEnd="@dimen/default_view_margins"
+                    android:layout_marginBottom="@dimen/default_view_margins"
+                    android:nestedScrollingEnabled="false" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_excluded_genres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            style="@style/linearLayoutVertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_view_padding"
+            android:paddingBottom="@dimen/default_view_padding">
+
+            <LinearLayout
+                style="@style/linearLayoutHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_view_padding">
+
+                <TextView
+                    android:id="@+id/match_header_excluded_genre"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="11"
+                    android:text="@string/genres_i_dont_want_to_see" />
+
+                <ImageButton
+                    android:id="@+id/tut_button_excluded_genres"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_view_margins"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:onClick="launchTutorial"
+                    android:src="@drawable/ic_tutorial" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/excluded_genres_rellayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/default_view_padding"
+                android:paddingEnd="@dimen/default_view_padding"
+                android:paddingBottom="@dimen/default_view_padding">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/excluded_genres_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_view_margins"
+                    android:layout_marginEnd="@dimen/default_view_margins"
+                    android:layout_marginBottom="@dimen/default_view_margins"
+                    android:nestedScrollingEnabled="false" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_ratings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/thick_view_padding">
+
+            <LinearLayout
+                style="@style/linearLayoutHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/default_view_padding">
+
+                <TextView
+                    android:id="@+id/match_header_rating"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="11"
+                    android:text="@string/rating_label" />
+
+                <ImageButton
+                    android:id="@+id/tut_button_rating"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_view_margins"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:onClick="launchTutorial"
+                    android:src="@drawable/ic_tutorial" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/default_view_padding">
+
+                <TextView
+                    android:id="@+id/match_header_rating_min"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/min" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_rating_min"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_view_margins"
+                    android:layout_weight="6"
+                    android:max="100"
+                    android:min="0"
+                    android:progress="0" />
+
+                <TextView
+                    android:id="@+id/label_rating_min"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="0.0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/default_view_padding">
+
+                <TextView
+                    android:id="@+id/match_header_rating_max"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/max" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_rating_max"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_view_margins"
+                    android:layout_weight="6"
+                    android:max="100"
+                    android:min="0"
+                    android:progress="100" />
+
+                <TextView
+                    android:id="@+id/label_rating_max"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="10.0" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_watch_providers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/thick_view_padding">
+
+            <ImageButton
+                android:id="@+id/tut_button_watch_providers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial"
+                app:layout_constraintEnd_toEndOf="@+id/match_header_watch_providers"
+                app:layout_constraintTop_toBottomOf="@id/match_header_watch_providers" />
+
+            <TextView
+                android:id="@+id/match_header_watch_providers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/watch_providers"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/match_header_rating_max" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/match_header_watch_providers"
+                app:layout_constraintTop_toTopOf="@+id/match_header_watch_providers">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/wp_button_0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="32dp"
+                        android:text="@string/netflix" />
+
+                    <CheckBox
+                        android:id="@+id/wp_button_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="32dp"
+                        android:text="@string/hulu" />
+
+                    <CheckBox
+                        android:id="@+id/wp_button_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="32dp"
+                        android:text="@string/disney" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/wp_button_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="32dp"
+                        android:text="@string/prime_video" />
+
+                    <CheckBox
+                        android:id="@+id/wp_button_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="32dp"
+                        android:text="@string/google_play" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_runtime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            style="@style/linearLayoutHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_view_padding">
+
+            <TextView
+                android:id="@+id/match_header_runtime"
+                style="@style/textviewVerticallyCentered"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:text="@string/runtime_mins" />
+
+            <EditText
+                android:id="@+id/runtime_min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="@string/min"
+                android:inputType="number"
+                android:maxLength="3" />
+
+            <EditText
+                android:id="@+id/runtime_max"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="@string/max"
+                android:inputType="number"
+                android:maxLength="3" />
+
+            <ImageButton
+                android:id="@+id/tut_button_runtime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_vote_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            style="@style/linearLayoutHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_view_padding">
+
+            <TextView
+                android:id="@+id/match_header_vote_count"
+                style="@style/textviewVerticallyCentered"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:text="@string/runtime_mins" />
+
+            <EditText
+                android:id="@+id/vote_count_min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="@string/min"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/vote_count_max"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="@string/max"
+                android:inputType="number" />
+
+            <ImageButton
+                android:id="@+id/tut_button_vote_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_languages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/thick_view_padding">
+
+            <ImageButton
+                android:id="@+id/tut_button_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial"
+                app:layout_constraintBottom_toBottomOf="@+id/match_header_languages"
+                app:layout_constraintStart_toEndOf="@+id/match_header_languages"
+                app:layout_constraintTop_toTopOf="@+id/match_header_languages" />
+
+            <TextView
+                android:id="@+id/match_header_languages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="48dp"
+                android:text="@string/language_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vote_count_max" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/languages_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/match_header_languages" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
