@@ -8,9 +8,17 @@
     <color name="FF_blue">#1669B5</color>
     <color name="FF_black">#231f20</color>
 
-    <color name="colorPrimary">#2196F3</color>
+    <!-- Primary brand color. -->
+    <color name="colorPrimary">@color/FF_orange</color>
+    <color name="colorPrimaryVariant">@color/FF_orangeDark</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <!-- Secondary brand color. -->
+    <color name="colorSecondary">@color/FF_yellow</color>
+    <color name="colorSecondaryVariant">@color/FF_yellowDark</color>
+    <color name="colorOnSecondary">@color/FF_orangeDark</color>
+
     <color name="colorPrimaryLight">#64b5f6</color>
-    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryDark">@color/FF_orangeDark</color>
     <color name="colorAccent">#FFFF9800</color>
     <color name="colorTextPrimary">@android:color/white</color>
     <color name="colorScreenBackground">#fff3e0</color>

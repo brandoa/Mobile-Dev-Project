@@ -581,7 +581,7 @@ public class MatchFragment extends Fragment {
                             matchViewModel.getMP().removeIncludedGenreFromList(genre);
                     }
                 });
-        includedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        includedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         includedGenresGrid.setAdapter(genresIncludedGridAdapter);
 
         // Sets up the GridView for the excluded genres checkboxes
@@ -601,7 +601,7 @@ public class MatchFragment extends Fragment {
                     }
                 }
         );
-        excludedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        excludedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         excludedGenresGrid.setAdapter(genresExcludedGridAdapter);
 
         // Observes the LiveData for when the genres change in the ViewModel
