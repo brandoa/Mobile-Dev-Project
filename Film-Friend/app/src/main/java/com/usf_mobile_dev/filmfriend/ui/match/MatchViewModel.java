@@ -41,6 +41,21 @@ public class MatchViewModel extends AndroidViewModel {
     private MovieRepository movieRepository;
     private MatchPreferences MP;
     private String api_key;
+    private MutableLiveData<List<String>> languages_list;
+
+    /*private String[] languages_array = new String[]{
+            "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani", "Bambara",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+    };*/
 
     public MatchViewModel(Application application) {
         super(application);
@@ -55,6 +70,8 @@ public class MatchViewModel extends AndroidViewModel {
         this.refreshGenres(application);
         languages = new MutableLiveData<>();
         languages.setValue(new ArrayList<>());
+        languages_list = new MutableLiveData<>();
+        languages_list.setValue(new ArrayList<>());
         languages_to_iso_id = new HashMap<>();
         selectedLanguage = new MutableLiveData<>();
         selectedLanguage.postValue("");
@@ -266,14 +283,6 @@ public class MatchViewModel extends AndroidViewModel {
                     ) {
                         List<LanguageResponse> results = response.body();
                         if(results != null) {
-
-                            // Creates a new languages list
-                            languages_to_iso_id.clear();
-                            for(LanguageResponse  language : results)
-                                languages_to_iso_id.put(
-                                        language.english_name,
-                                        language.iso_code);
-
                             // Resets the genres in the current Match Preference
                             results.sort(new Comparator<LanguageResponse>() {
                                 @Override
@@ -281,7 +290,17 @@ public class MatchViewModel extends AndroidViewModel {
                                     return o1.english_name.compareTo(o2.english_name);
                                 }
                             });
+                            List<String> temp = new ArrayList<>();
+                            // Creates a new languages list
+                            languages_to_iso_id.clear();
+                            for(LanguageResponse  language : results) {
+                                temp.add(language.english_name);
+                                languages_to_iso_id.put(
+                                        language.english_name,
+                                        language.iso_code);
+                            }
                             languages.postValue(results);
+                            languages_list.postValue(temp);
                         }
                     }
 
@@ -332,6 +351,10 @@ public class MatchViewModel extends AndroidViewModel {
             }
         }
         return null;
+    }
+
+    public MutableLiveData<List<String>> getLanguages_list() {
+        return languages_list;
     }
 
     public void setSelectedLanguage(String language) {

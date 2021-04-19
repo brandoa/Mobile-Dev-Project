@@ -55,12 +55,14 @@ public class LanguagesGridAdapter
             @NonNull LanguagesGridAdapter.ViewHolder holder,
             int position
     ) {
+        Log.d("LANGUAGE", "Position: " + position);
+        Log.d("LANGUAGE", "Name: " + languages.get(position).english_name);
+        Log.d("LANGUAGE", "ISO: " + languages.get(position).iso_code);
         holder.getRadioButton().setText(languages.get(position).english_name);
         holder.getRadioButton().setOnCheckedChangeListener(checkedChangeListener);
         //Log.d("LANGUAGE", "in onBindViewHolder: " + String.valueOf(position));
         if(selectedLanguage.equals(languages.get(position).english_name)) {
-            Log.d("LANGUAGE", "in onBindViewHolder: " + position);
-            Log.d("LANGUAGE", "in onBindViewHolder: " + languages.get(position).english_name);
+
             holder.getRadioButton().setChecked(true);
         }
         else
