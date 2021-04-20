@@ -26,8 +26,6 @@ public class MatchPreferences implements Serializable {
 
     static final private Boolean genre_cb_init = false;
     // True = all checkboxes start as checked, False = unchecked
-    static final private Boolean WP_CB_INIT = false;
-    //static final private Boolean watch_providers_cb_init = true;
 
     // The movie preferences
     private int release_year_start = 1850;
@@ -46,12 +44,10 @@ public class MatchPreferences implements Serializable {
     private HashMap<Integer, Boolean> genres_to_exclude;
     @TypeConverters(StringListToStringConverter.class)
     private ArrayList<String> excluded_genres_list;
-    @TypeConverters(IntBoolHashMapToStringConverter.class)
-    private HashMap<Integer, Boolean> watch_providers_to_include;
-    @TypeConverters(StringListToStringConverter.class)
-    private ArrayList<String> watch_providers_list;
     private String selected_language_code;
     private String selected_language_name;
+    private int selected_watch_provider_code;
+    private String selected_watch_provider_name;
 
     @PrimaryKey
     @NonNull
@@ -71,17 +67,12 @@ public class MatchPreferences implements Serializable {
         vote_count_max = 1000000;
         genres_to_include = new HashMap<Integer, Boolean>();
         genres_to_exclude = new HashMap<Integer, Boolean>();
-        watch_providers_to_include = new HashMap<Integer, Boolean>();
         included_genres_list = new ArrayList<>();
         excluded_genres_list = new ArrayList<>();
-        watch_providers_list = new ArrayList<>();
-        watch_providers_to_include.put(8, WP_CB_INIT);
-        watch_providers_to_include.put(15, WP_CB_INIT);
-        watch_providers_to_include.put(337, WP_CB_INIT);
-        watch_providers_to_include.put(9, WP_CB_INIT);
-        watch_providers_to_include.put(3, WP_CB_INIT);
         selected_language_code = "en";
         selected_language_name = "English";
+        selected_watch_provider_code = -1;
+        selected_watch_provider_name = "- Any -";
         preference_title = "EXAMPLE TITLE";
     }
 
@@ -99,12 +90,12 @@ public class MatchPreferences implements Serializable {
             int vote_count_max,
             HashMap<Integer, Boolean> genres_to_include,
             HashMap<Integer, Boolean> genres_to_exclude,
-            HashMap<Integer, Boolean> watch_providers_to_include,
             ArrayList<String> included_genres_list,
             ArrayList<String> excluded_genres_list,
-            ArrayList<String> watch_providers_list,
             String selected_language_code,
-            String selected_language_name
+            String selected_language_name,
+            String selected_watch_provider_name,
+            int selected_watch_provider_code
     ) {
         this.preference_title = preference_title;
         this.release_year_start = release_year_start;
@@ -117,12 +108,12 @@ public class MatchPreferences implements Serializable {
         this.vote_count_max = vote_count_max;
         this.genres_to_include = genres_to_include;
         this.genres_to_exclude = genres_to_exclude;
-        this.watch_providers_to_include = watch_providers_to_include;
         this.included_genres_list = included_genres_list;
         this.excluded_genres_list = excluded_genres_list;
-        this.watch_providers_list = watch_providers_list;
         this.selected_language_code = selected_language_code;
         this.selected_language_name = selected_language_name;
+        this.selected_watch_provider_name = selected_watch_provider_name;
+        this.selected_watch_provider_code = selected_watch_provider_code;
     }
 
     // Copy Constructor
@@ -138,19 +129,12 @@ public class MatchPreferences implements Serializable {
         vote_count_max = mp.getVote_count_max();
         genres_to_include = mp.getGenres_to_include();
         genres_to_exclude = mp.getGenres_to_exclude();
-        watch_providers_to_include = mp.getWatch_providers_to_include();
         included_genres_list = mp.getIncluded_genres_list();
         excluded_genres_list = mp.getExcluded_genres_list();
-        watch_providers_list = mp.getWatch_providers_list();
-        /*
-        watch_providers_to_include.put(8, WP_CB_INIT);
-        watch_providers_to_include.put(15, WP_CB_INIT);
-        watch_providers_to_include.put(337, WP_CB_INIT);
-        watch_providers_to_include.put(9, WP_CB_INIT);
-        watch_providers_to_include.put(3, WP_CB_INIT);
-        // */
         selected_language_code = mp.getSelected_language_code();
         selected_language_name = mp.getSelected_language_name();
+        selected_watch_provider_name = mp.getSelected_watch_provider_name();
+        selected_watch_provider_code = mp.getSelected_watch_provider_code();
     }
 
     public void resetMatchPreference()
@@ -174,17 +158,12 @@ public class MatchPreferences implements Serializable {
         for(Map.Entry mapElement : genres_to_exclude.entrySet()){
             genres_to_exclude.put((Integer) mapElement.getKey(), false);
         }
-        watch_providers_to_include = new HashMap<Integer, Boolean>();
         included_genres_list = new ArrayList<>();
         excluded_genres_list = new ArrayList<>();
-        watch_providers_list = new ArrayList<>();
-        watch_providers_to_include.put(8, WP_CB_INIT);
-        watch_providers_to_include.put(15, WP_CB_INIT);
-        watch_providers_to_include.put(337, WP_CB_INIT);
-        watch_providers_to_include.put(9, WP_CB_INIT);
-        watch_providers_to_include.put(3, WP_CB_INIT);
         selected_language_code = "en";
         selected_language_name = "English";
+        selected_watch_provider_code = -1;
+        selected_watch_provider_name = "- Any -";
         preference_title = "EXAMPLE TITLE";
     }
     public String getIncludedGenresString() {
@@ -210,20 +189,6 @@ public class MatchPreferences implements Serializable {
 
     public int getNumSelectedExcludedGenres() {
         return (int) genres_to_exclude.entrySet().stream()
-                .filter(Map.Entry::getValue)
-                .map(entry -> Integer.toString(entry.getKey()))
-                .count();
-    }
-
-    public String getWatchProvidersString() {
-        return watch_providers_to_include.entrySet().stream()
-                .filter(Map.Entry::getValue)
-                .map(entry -> Integer.toString(entry.getKey()))
-                .collect(Collectors.joining(","));
-    }
-
-    public int getNumSelectedWatchProviders() {
-        return (int) watch_providers_to_include.entrySet().stream()
                 .filter(Map.Entry::getValue)
                 .map(entry -> Integer.toString(entry.getKey()))
                 .count();
@@ -289,17 +254,6 @@ public class MatchPreferences implements Serializable {
 
     public double getRating_max() { return rating_max; }
     public void setRating_max(double rating_max) { this.rating_max = rating_max; }
-
-    public HashMap<Integer, Boolean> getWatch_providers_to_include() {
-        return watch_providers_to_include;
-    }
-    public void setWatch_providers_to_include(HashMap<Integer, Boolean> watch_providers_to_include) {
-        this.watch_providers_to_include = watch_providers_to_include;
-    }
-    // Setting the bool for a single watch provider
-    public void setWatchProvider(Integer id, Boolean new_val) {
-        this.watch_providers_to_include.replace(id, new_val);
-    }
 
     public void setSelected_language_code(String selected_language_code) {
         this.selected_language_code = selected_language_code;
@@ -371,20 +325,19 @@ public class MatchPreferences implements Serializable {
         this.excluded_genres_list.remove(genre);
     }
 
-    public ArrayList<String> getWatch_providers_list() {
-        return watch_providers_list;
+    public int getSelected_watch_provider_code() {
+        return selected_watch_provider_code;
     }
 
-    public void setWatch_providers_list(ArrayList<String> watch_providers_list) {
-        this.watch_providers_list = watch_providers_list;
+    public void setSelected_watch_provider_code(int selected_watch_provider_code) {
+        this.selected_watch_provider_code = selected_watch_provider_code;
     }
 
-    public void addWatchProviderToList(String watch_provider) {
-        if(!this.watch_providers_list.contains(watch_provider))
-            this.watch_providers_list.add(watch_provider);
+    public String getSelected_watch_provider_name() {
+        return selected_watch_provider_name;
     }
 
-    public void removeWatchProviderFromList(String watch_provider) {
-        this.watch_providers_list.remove(watch_provider);
+    public void setSelected_watch_provider_name(String selected_watch_provider_name) {
+        this.selected_watch_provider_name = selected_watch_provider_name;
     }
 }

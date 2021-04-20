@@ -15,7 +15,7 @@ import com.usf_mobile_dev.filmfriend.utils.RoomTypeConverters;
 
 @Database(
         entities = {MovieListing.class, MatchPreferences.class},
-        version = 3,
+        version = 4,
         exportSchema = false
 )
 @TypeConverters({RoomTypeConverters.class})

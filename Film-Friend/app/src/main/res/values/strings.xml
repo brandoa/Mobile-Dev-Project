@@ -72,7 +72,7 @@
     <string name="chosen_genres">Chosen Genres:</string>
     <string name="genres_not_wanted">Genres Not Wanted:</string>
     <string name="ratings_range">Ratings Range:</string>
-    <string name="chosen_watch_providers">Chosen Watch Providers:</string>
+    <string name="chosen_watch_providers">Chosen Watch Provider:</string>
     <string name="runtime_range_in_minutes">Runtime Range (in minutes):</string>
     <string name="vote_count_range">Vote Count Range:</string>
     <string name="chosen_language">Chosen Language:</string>

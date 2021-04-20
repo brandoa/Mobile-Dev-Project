@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="135dp"
     android:layout_margin="5dp"
-    app:cardElevation="10dp"
+    android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:orientation="horizontal"
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginLeft="100dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginLeft="120dp"
-        android:gravity="center">
+        android:padding="@dimen/default_view_padding">
+
         <TextView
             android:id="@+id/movieListingName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxEms="12"
-            android:text="@string/movie_name"/>
+            android:text="@string/movie_name"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
         <TextView
             android:id="@+id/movieListingRelease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="@string/release"/>
+            android:text="@string/release"
+            android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     </LinearLayout>
 
@@ -45,8 +50,9 @@
         android:id="@+id/listingDate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/default_view_margins"
+        android:gravity="right"
         android:text="1/1/2021"
-        android:gravity="right"/>
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
 </androidx.cardview.widget.CardView>

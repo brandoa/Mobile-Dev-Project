@@ -54,4 +54,14 @@ interface TMDBInterface {
             @Query(value = "api_key", encoded = true)
                     String api_key
     );
+
+    @GET("watch/providers/movie")
+    Call<WatchProviderResponse> getWatchProviders(
+            @Query(value = "api_key", encoded = true)
+                    String api_key,
+            @Query(value = "language", encoded = true)
+                    String language,
+            @Query(value = "watch_region", encoded = true)
+                    String watchRegion
+    );
 }

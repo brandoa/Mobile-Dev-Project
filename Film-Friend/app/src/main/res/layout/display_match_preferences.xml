@@ -1,239 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+    <LinearLayout
+        style="@style/linearLayoutVertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/release_years_layout"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_release_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/default_view_margins">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/release_years_label" />
-
-            <TextView
-                android:id="@+id/txtViewReleaseYearStart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="end"
-                android:text="1950" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/txtViewReleaseYearEnd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="start"
-                android:text="2021" />
-
-        </LinearLayout>
-
-        <TextView
+            <LinearLayout
+                android:id="@+id/release_years_layout"
+                style="@style/linearLayoutHorizontal"
                 android:layout_width="match_parent"
-                android:layout_margin="8dp"
-                android:gravity="start"
                 android:layout_height="wrap_content"
-                android:text="@string/chosen_genres" />
+                android:padding="@dimen/default_view_padding">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chosen_genres_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:layout_height="wrap_content" />
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/release_years_label" />
 
-        <TextView
+                <TextView
+                    android:id="@+id/txtViewReleaseYearStart"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="end"
+                    android:text="1950"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/txtViewReleaseYearEnd"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="start"
+                    android:text="2021"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_included_genres"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:gravity="start"
             android:layout_height="wrap_content"
-            android:text="@string/genres_not_wanted" />
+            android:layout_margin="@dimen/default_view_margins">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rejected_genres_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:id="@+id/rating_range_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/ratings_range" />
-
-            <TextView
-                android:id="@+id/txtViewRatingLowerBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="end"
-                android:text="4" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/txtViewRatingUpperBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="start"
-                android:text="9" />
-
-        </LinearLayout>
-
-        <TextView
+            <LinearLayout
+                style="@style/linearLayoutVertical"
                 android:layout_width="match_parent"
-                android:layout_margin="8dp"
-                android:gravity="start"
                 android:layout_height="wrap_content"
-                android:text="@string/chosen_watch_providers" />
+                android:paddingTop="@dimen/default_view_padding"
+                android:paddingBottom="@dimen/default_view_padding">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/watch_providers_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:layout_height="wrap_content" />
+                <LinearLayout
+                    style="@style/linearLayoutHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/default_view_padding">
 
-        <LinearLayout
-            android:id="@+id/runtime_range_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
+                    <TextView
+                        style="@style/textviewVerticallyCentered"
+                        android:layout_width="0dp"
+                        android:layout_weight="11"
+                        android:text="@string/chosen_genres" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/runtime_range_in_minutes" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtViewRuntimeLowerBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="end"
-                android:text="40" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/default_view_padding"
+                    android:paddingEnd="@dimen/default_view_padding"
+                    android:paddingBottom="@dimen/default_view_padding">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="-" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chosen_genres_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_view_margins"
+                        android:layout_marginEnd="@dimen/default_view_margins"
+                        android:layout_marginBottom="@dimen/default_view_margins"
+                        android:nestedScrollingEnabled="false" />
 
-            <TextView
-                android:id="@+id/txtViewRuntimeUpperBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="start"
-                android:text="150" />
+                </RelativeLayout>
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/vote_count_range_layout"
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_excluded_genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/default_view_margins">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                style="@style/linearLayoutVertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/vote_count_range" />
+                android:paddingTop="@dimen/default_view_padding"
+                android:paddingBottom="@dimen/default_view_padding">
 
-            <TextView
-                android:id="@+id/txtViewVoteCountLowerBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="end"
-                android:text="40" />
+                <LinearLayout
+                    style="@style/linearLayoutHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/default_view_padding">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="-" />
+                    <TextView
+                        style="@style/textviewVerticallyCentered"
+                        android:layout_width="0dp"
+                        android:layout_weight="11"
+                        android:text="@string/genres_not_wanted" />
 
-            <TextView
-                android:id="@+id/txtViewVoteCountUpperBound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="6"
-                android:gravity="start"
-                android:text="60000" />
+                </LinearLayout>
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/default_view_padding"
+                    android:paddingEnd="@dimen/default_view_padding"
+                    android:paddingBottom="@dimen/default_view_padding">
 
-        <LinearLayout
-            android:id="@+id/chosen_language_layout"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rejected_genres_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_view_margins"
+                        android:layout_marginEnd="@dimen/default_view_margins"
+                        android:layout_marginBottom="@dimen/default_view_margins"
+                        android:nestedScrollingEnabled="false" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_ratings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/default_view_margins">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/rating_range_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/chosen_language" />
+                android:padding="@dimen/default_view_padding">
 
-            <TextView
-                android:id="@+id/txtViewChosenLanguage"
-                android:layout_width="0dp"
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/ratings_range" />
+
+                <TextView
+                    android:id="@+id/txtViewRatingLowerBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="end"
+                    android:text="4"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/txtViewRatingUpperBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="start"
+                    android:text="9"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_chosen_watch_provider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_view_margins">
+
+            <LinearLayout
+                android:id="@+id/chosen_watch_provider_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="14"
-                android:gravity="center"
-                android:text="English" />
+                android:padding="@dimen/default_view_padding">
 
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/chosen_watch_providers" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtViewChosenWatchProvider"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="-----"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_runtime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_view_margins">
+
+            <LinearLayout
+                android:id="@+id/runtime_range_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_view_padding">
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/runtime_range_in_minutes" />
+
+                <TextView
+                    android:id="@+id/txtViewRuntimeLowerBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="end"
+                    android:text="4"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/txtViewRuntimeUpperBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="start"
+                    android:text="9"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_vote_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_view_margins">
+
+            <LinearLayout
+                android:id="@+id/vote_count_range_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_view_padding">
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/vote_count_range" />
+
+                <TextView
+                    android:id="@+id/txtViewVoteCountLowerBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="end"
+                    android:text="4"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/txtViewVoteCountUpperBound"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:gravity="start"
+                    android:text="9"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_chosen_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_view_margins">
+
+            <LinearLayout
+                android:id="@+id/chosen_language_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_view_padding">
+
+                <TextView
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:text="@string/chosen_language" />
+
+                <TextView
+                    android:id="@+id/txtViewChosenLanguage"
+                    style="@style/textviewVerticallyCentered"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

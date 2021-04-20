@@ -27,7 +27,7 @@
                 android:text="@string/release_year_label" />
 
             <EditText
-                android:id="@+id/release_date_end"
+                android:id="@+id/release_date_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_view_margins"
@@ -35,10 +35,11 @@
                 android:ems="10"
                 android:hint="To"
                 android:inputType="number"
-                android:maxLength="4" />
+                android:maxLength="4"
+                android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
 
             <EditText
-                android:id="@+id/release_date_start"
+                android:id="@+id/release_date_end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_view_margins"
@@ -46,7 +47,8 @@
                 android:ems="10"
                 android:hint="From"
                 android:inputType="number"
-                android:maxLength="4" />
+                android:maxLength="4"
+                android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView.SpinnerItem" />
 
             <ImageButton
                 android:id="@+id/tut_button_release_date"
@@ -54,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_view_margins"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:onClick="launchTutorial"
                 android:src="@drawable/ic_tutorial" />
 
@@ -298,90 +300,35 @@
         android:layout_margin="@dimen/default_view_margins">
 
         <LinearLayout
+            style="@style/linearLayoutHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/thick_view_padding">
-
-            <ImageButton
-                android:id="@+id/tut_button_watch_providers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/white"
-                android:onClick="launchTutorial"
-                android:src="@drawable/ic_tutorial"
-                app:layout_constraintEnd_toEndOf="@+id/match_header_watch_providers"
-                app:layout_constraintTop_toBottomOf="@id/match_header_watch_providers" />
+            android:padding="@dimen/default_view_padding">
 
             <TextView
                 android:id="@+id/match_header_watch_providers"
-                android:layout_width="wrap_content"
+                style="@style/textviewVerticallyCentered"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:text="@string/watch_providers" />
+
+            <Spinner
+                android:id="@+id/spinner_watch_providers"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/watch_providers"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/match_header_rating_max" />
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="8"
+                android:ems="10" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@+id/match_header_watch_providers"
-                app:layout_constraintTop_toTopOf="@+id/match_header_watch_providers">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/wp_button_0"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="32dp"
-                        android:text="@string/netflix" />
-
-                    <CheckBox
-                        android:id="@+id/wp_button_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="32dp"
-                        android:text="@string/hulu" />
-
-                    <CheckBox
-                        android:id="@+id/wp_button_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="32dp"
-                        android:text="@string/disney" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/wp_button_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="32dp"
-                        android:text="@string/prime_video" />
-
-                    <CheckBox
-                        android:id="@+id/wp_button_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="32dp"
-                        android:text="@string/google_play" />
-                </LinearLayout>
-
-            </LinearLayout>
+            <ImageButton
+                android:id="@+id/tut_button_watch_providers"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial" />
 
         </LinearLayout>
 
@@ -459,7 +406,7 @@
                 style="@style/textviewVerticallyCentered"
                 android:layout_width="0dp"
                 android:layout_weight="3"
-                android:text="@string/runtime_mins" />
+                android:text="@string/vote_count_label_2" />
 
             <EditText
                 android:id="@+id/vote_count_min"
@@ -502,54 +449,38 @@
         android:layout_margin="@dimen/default_view_margins">
 
         <LinearLayout
+            style="@style/linearLayoutHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/thick_view_padding">
-
-            <ImageButton
-                android:id="@+id/tut_button_language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:background="@color/white"
-                android:onClick="launchTutorial"
-                android:src="@drawable/ic_tutorial"
-                app:layout_constraintBottom_toBottomOf="@+id/match_header_languages"
-                app:layout_constraintStart_toEndOf="@+id/match_header_languages"
-                app:layout_constraintTop_toTopOf="@+id/match_header_languages" />
+            android:padding="@dimen/default_view_padding">
 
             <TextView
                 android:id="@+id/match_header_languages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="48dp"
-                android:text="@string/language_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vote_count_max" />
+                style="@style/textviewVerticallyCentered"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:text="@string/language_label" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/languages_recyclerview"
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spinner_languages"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/match_header_languages" />
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="8"
+                android:ems="10" />
+
+            <ImageButton
+                android:id="@+id/tut_button_language"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_view_margins"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:onClick="launchTutorial"
+                android:src="@drawable/ic_tutorial" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <Spinner
-        android:id="@+id/spinner_languages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/match_header_languages"/>
 
 </LinearLayout>
