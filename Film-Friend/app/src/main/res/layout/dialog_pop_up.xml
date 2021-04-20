@@ -36,15 +36,20 @@
             android:layout_below="@+id/popup_close_button"
             android:background="@color/white"
             >
-                <TextView
-                    android:id="@+id/popup_text"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/body" />
+                        >
+                        <TextView
+                            android:id="@+id/popup_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/black"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/body" />
+                </ScrollView>
         </RelativeLayout>
 </RelativeLayout>
