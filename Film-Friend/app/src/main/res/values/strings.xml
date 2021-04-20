@@ -62,7 +62,7 @@
     <string name="vote_count">123</string>
     <string name="scan_qr">Scan QR</string>
     <string name="generate_qr">Generate QR</string>
-    <string name="match_preferences_name">Match Preferences Name</string>
+    <string name="match_preferences_name">Match Preferences Name:</string>
     <string name="save_match_preferences">Save Match Preferences</string>
     <string name="edit">Edit</string>
     <string name="send_to_match_page">Send To Match Page</string>

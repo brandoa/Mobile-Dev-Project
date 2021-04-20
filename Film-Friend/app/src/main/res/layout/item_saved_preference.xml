@@ -2,57 +2,71 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:padding="10dp"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:orientation="horizontal"
+    android:padding="10dp"
     app:cardCornerRadius="50dp"
     app:cardElevation="10dp">
 
-    <TextView
-        android:layout_gravity="center_vertical"
-        android:id="@+id/preference_name"
-        android:layout_width="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Material.Widget.DropDownItem"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="@string/preference_name"/>
-
     <LinearLayout
-        android:gravity="end"
+        style="@style/linearLayoutHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/default_view_margins"
+        android:layout_marginTop="@dimen/thick_view_margins"
+        android:layout_marginEnd="@dimen/default_view_margins"
+        android:layout_marginBottom="@dimen/thick_view_margins">
 
-        <ImageButton
-            style="@style/Widget.AppCompat.ActionButton"
-            android:id="@+id/preference_open_btn"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_open_in_new_black"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-
-        <ImageButton
-            style="@style/Widget.AppCompat.ActionButton"
-            android:id="@+id/preference_qr_gen_btn"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_qr_code_black"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-
-        <ImageButton
-            style="@style/Widget.AppCompat.ActionButton"
-            android:id="@+id/preference_delete_btn"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/preference_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_preference_delete_24dp" />
+            android:layout_marginLeft="20dp"
+            android:layout_weight="5"
+            android:gravity="start"
+            android:text="@string/preference_name"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.DropDownItem" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/preference_open_btn"
+                style="@style/ButtonIconTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_open_in_new_black" />
+
+            <ImageButton
+                android:id="@+id/preference_qr_gen_btn"
+                style="@style/ButtonIconTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_qr_code_black" />
+
+            <ImageButton
+                android:id="@+id/preference_delete_btn"
+                style="@style/ButtonIconTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_preference_delete_24dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
