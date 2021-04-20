@@ -73,7 +73,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                 entries.add(new BarEntry(3f, 50f));*/
                 BarDataSet set = new BarDataSet(entries, "Movies by Decade");
 
-                set.setColors(new int[] {R.color.FF_blue}, context);
+                set.setColors(new int[] {R.color.FF_orange}, context);
                 BarData data = new BarData(set);
                 data.setValueTextSize((float)18.0);
                 data.setValueFormatter(new ValueFormatter() {
