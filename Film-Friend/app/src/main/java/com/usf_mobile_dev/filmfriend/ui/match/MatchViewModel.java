@@ -17,6 +17,7 @@ import com.usf_mobile_dev.filmfriend.data_sources.data_classes.MatchPreferences;
 import com.usf_mobile_dev.filmfriend.data_sources.tmdb_api.DiscoverResponse;
 import com.usf_mobile_dev.filmfriend.data_sources.tmdb_api.GenreResponse;
 import com.usf_mobile_dev.filmfriend.data_sources.tmdb_api.LanguageResponse;
+import com.usf_mobile_dev.filmfriend.data_sources.tmdb_api.WatchProviderResponse;
 import com.usf_mobile_dev.filmfriend.ui.movieInfo.MovieInfoActivity;
 import com.usf_mobile_dev.filmfriend.ui.movieInfo.MovieInfoViewModel;
 
@@ -38,9 +39,28 @@ public class MatchViewModel extends AndroidViewModel {
     private MutableLiveData<List<LanguageResponse>> languages;
     private HashMap<String, String> languages_to_iso_id;
     private MutableLiveData<String> selectedLanguage;
+    private MutableLiveData<List<String>> languages_list;
+    private MutableLiveData<List<WatchProviderResponse.WPData>> watchProviders;
+    private HashMap<String, Integer> watch_providers_to_api_id;
+    private MutableLiveData<String> selectedWatchProvider;
+    private MutableLiveData<List<String>> watchProviders_list;
     private MovieRepository movieRepository;
     private MatchPreferences MP;
     private String api_key;
+
+    /*private String[] languages_array = new String[]{
+            "Abkhazian", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese", "Avaric", "Avestan", "Aymara", "Azerbaijani", "Bambara",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+    };*/
 
     public MatchViewModel(Application application) {
         super(application);
@@ -55,10 +75,21 @@ public class MatchViewModel extends AndroidViewModel {
         this.refreshGenres(application);
         languages = new MutableLiveData<>();
         languages.setValue(new ArrayList<>());
+        languages_list = new MutableLiveData<>();
+        languages_list.setValue(new ArrayList<>());
         languages_to_iso_id = new HashMap<>();
         selectedLanguage = new MutableLiveData<>();
-        selectedLanguage.postValue("");
+        selectedLanguage.postValue("- Any -");
         this.refreshLanguages(application);
+
+        watchProviders = new MutableLiveData<>();
+        watchProviders.setValue(new ArrayList<>());
+        watchProviders_list = new MutableLiveData<>();
+        watchProviders_list.setValue(new ArrayList<>());
+        watch_providers_to_api_id = new HashMap<>();
+        selectedWatchProvider = new MutableLiveData<>();
+        selectedWatchProvider.postValue("- Any -");
+        this.refreshWatchProviders(application);
     }
 
 
@@ -87,14 +118,6 @@ public class MatchViewModel extends AndroidViewModel {
         put("Western", 37);
     }};
      */
-    final private HashMap<String, Integer> watch_providers_to_api_id = new HashMap<String, Integer>()
-    {{
-        put("Netflix", 8);
-        put("Hulu", 15);
-        put("Disney+", 337);
-        put("Amazon Prime", 9);
-        put("Google Play", 3);
-    }};
 
     public void setIncludedGenreVal(String name, Boolean new_val)
     {
@@ -111,17 +134,6 @@ public class MatchViewModel extends AndroidViewModel {
     final public int getGenreID(String name) {
 
         return genres_to_api_id.get(name);
-    }
-
-    final public int getWPID(String name) {
-
-        return watch_providers_to_api_id.get(name);
-    }
-
-    public void setWPVal (String name, Boolean new_val)
-    {
-        Integer id = watch_providers_to_api_id.get(name);
-        MP.setWatchProvider(id, new_val);
     }
 
     public void setRating (double new_rating, boolean is_min)
@@ -266,22 +278,27 @@ public class MatchViewModel extends AndroidViewModel {
                     ) {
                         List<LanguageResponse> results = response.body();
                         if(results != null) {
+                            // Resets the genres in the current Match Preference
+                            results.sort((o1, o2) -> o1.english_name.compareTo(o2.english_name));
+                            List<String> temp = new ArrayList<>();
+
+                            // Adds an option for any language
+                            temp.add("- Any -");
+                            languages_to_iso_id.clear();
+                            languages_to_iso_id.put(
+                                    "- Any -",
+                                    "ANY_LANGUAGE"
+                            );
 
                             // Creates a new languages list
-                            languages_to_iso_id.clear();
-                            for(LanguageResponse  language : results)
+                            for(LanguageResponse  language : results) {
+                                temp.add(language.english_name);
                                 languages_to_iso_id.put(
                                         language.english_name,
                                         language.iso_code);
-
-                            // Resets the genres in the current Match Preference
-                            results.sort(new Comparator<LanguageResponse>() {
-                                @Override
-                                public int compare(LanguageResponse o1, LanguageResponse o2) {
-                                    return o1.english_name.compareTo(o2.english_name);
-                                }
-                            });
+                            }
                             languages.postValue(results);
+                            languages_list.postValue(temp);
                         }
                     }
 
@@ -293,6 +310,66 @@ public class MatchViewModel extends AndroidViewModel {
                         call.cancel();
                         Toast.makeText(context,
                                 "COULDN'T ACCESS LANGUAGES",
+                                Toast.LENGTH_LONG).show();
+                    }
+                },
+                context.getMainExecutor(),
+                this.api_key
+        );
+    }
+
+    private void refreshWatchProviders(Context context) {
+        movieRepository.getTMDBWatchProviders(
+                new Callback<WatchProviderResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<WatchProviderResponse> call,
+                            Response<WatchProviderResponse> response
+                    ) {
+                        List<WatchProviderResponse.WPData> results = response.body().wpData;
+                        if(results != null) {
+                            // Resets the watch providers in the current Match Preference
+                            results.sort((o1, o2) -> o1.providerName.compareTo(o2.providerName));
+
+                            List<WatchProviderResponse.WPData> filteredResults = new ArrayList<>();
+                            List<String> temp = new ArrayList<>();
+
+                            // Adds an option for any watch provider
+                            temp.add("- Any -");
+                            watch_providers_to_api_id.clear();
+                            watch_providers_to_api_id.put(
+                                    "- Any -",
+                                    -1
+                            );
+
+                            // Creates a new watch providers list
+                            for(WatchProviderResponse.WPData  watchProvider : results) {
+                                if(!temp.contains(watchProvider.providerName)
+                                    && watchProvider.providerId != 119) {
+                                    filteredResults.add(watchProvider);
+                                    temp.add(watchProvider.providerName);
+                                    watch_providers_to_api_id.put(
+                                            watchProvider.providerName,
+                                            watchProvider.providerId);
+                                }
+                            }
+                            watchProviders.postValue(filteredResults);
+                            watchProviders_list.postValue(temp);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<WatchProviderResponse> call,
+                            Throwable t
+                    ) {
+                        Log.d("WP_CALLBACK_FAILURE",
+                                call.request().toString());
+                        Log.d("WP_CALLBACK_FAILURE",
+                                t.getMessage());
+                        call.cancel();
+                        Toast.makeText(context,
+                                "COULDN'T ACCESS WATCH PROVIDERS",
                                 Toast.LENGTH_LONG).show();
                     }
                 },
@@ -334,11 +411,27 @@ public class MatchViewModel extends AndroidViewModel {
         return null;
     }
 
+    public MutableLiveData<List<String>> getLanguages_list() {
+        return languages_list;
+    }
+
     public void setSelectedLanguage(String language) {
         selectedLanguage.postValue(language);
         Log.d("LANGUAGE", "in setSelectedLanguage: " + language);
         Log.d("LANGUAGE", "in setSelectedLanguage: " + languages_to_iso_id.get(language));
         this.MP.setSelected_language_code(languages_to_iso_id.get(language));
         this.MP.setSelected_language_name(language);
+    }
+
+    public MutableLiveData<List<String>> getWatchProviders_list() {
+        return watchProviders_list;
+    }
+
+    public void setSelectedWatchProvider(String watchProvider) {
+        selectedWatchProvider.postValue(watchProvider);
+        Log.d("WATCH_PROVIDER", "in setSelectedWatchProvider: " + watchProvider);
+        Log.d("WATCH_PROVIDER", "in setSelectedWatchProvider: " + watch_providers_to_api_id.get(watchProvider));
+        this.MP.setSelected_watch_provider_code(watch_providers_to_api_id.get(watchProvider));
+        this.MP.setSelected_watch_provider_name(watchProvider);
     }
 }

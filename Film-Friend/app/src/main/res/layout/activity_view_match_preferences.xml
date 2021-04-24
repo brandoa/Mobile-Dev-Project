@@ -6,29 +6,35 @@
     android:orientation="vertical"
     tools:context=".ui.save_match_preferences.SaveMatchPreferencesActivity">
 
-    <TextView
-        android:id="@+id/match_preferences_title_txt_view"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_weight="2"
-        android:textAlignment="gravity"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:text="@string/match_preferences_name" />
+        android:layout_weight="5"
+        android:layout_margin="@dimen/default_view_margins"
+        android:layout_height="0dp" >
+
+        <TextView
+            android:id="@+id/match_preferences_title_txt_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/match_preferences_name"
+            android:textAlignment="gravity"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+    </androidx.cardview.widget.CardView>
 
     <include
         layout="@layout/display_match_preferences"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        android:layout_weight="16" />
+        android:layout_weight="32" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        android:layout_weight="3">
+        android:layout_weight="6">
 
         <Button
             android:id="@+id/btnSendBack"

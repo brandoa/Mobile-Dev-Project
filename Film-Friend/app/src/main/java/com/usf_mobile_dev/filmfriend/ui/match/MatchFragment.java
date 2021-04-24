@@ -11,12 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,16 +56,12 @@ public class MatchFragment extends Fragment {
     private MatchViewModel matchViewModel;
     private RecyclerView includedGenresGrid;
     private RecyclerView excludedGenresGrid;
-    private RecyclerView languagesGrid;
+    //private RecyclerView languagesGrid;
+    private Spinner languagesSpinner;
+    private String[] languagesArray;
+    private Spinner watchProvidersSpinner;
+    private String[] watchProvidersArray;
 
-    final private String[] genres = {
-        "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama",
-        "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance",
-        "Sci-Fi", "TV Movie", "Thriller", "War", "Western"
-    };
-    final private String[] watch_providers = {
-        "Netflix", "Hulu", "Disney+", "Amazon Prime", "Google Play"
-    };
     final private int DEF_RELEASE_YEAR_MIN = 1850;
     final private int DEF_RELEASE_YEAR_MAX = 2021;
     final private int DEF_LOWEST_RATING = 0;
@@ -86,11 +85,6 @@ public class MatchFragment extends Fragment {
     private EditText release_year_end;
     private SeekBar rating_min;
     private SeekBar rating_max;
-    private CheckBox wp_cb_0;
-    private CheckBox wp_cb_1;
-    private CheckBox wp_cb_2;
-    private CheckBox wp_cb_3;
-    private CheckBox wp_cb_4;
     private EditText runtime_min;
     private EditText runtime_max;
     private EditText vote_count_min;
@@ -177,74 +171,6 @@ public class MatchFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) { }
           
         }));
-
-        wp_cb_0 = (CheckBox)root.findViewById(R.id.wp_button_0);
-        wp_cb_1 = (CheckBox)root.findViewById(R.id.wp_button_1);
-        wp_cb_2 = (CheckBox)root.findViewById(R.id.wp_button_2);
-        wp_cb_3 = (CheckBox)root.findViewById(R.id.wp_button_3);
-        wp_cb_4 = (CheckBox)root.findViewById(R.id.wp_button_4);
-
-        wp_cb_0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchViewModel.setWPVal(watch_providers[0],
-                        ((CheckBox) v).isChecked());
-                String watchProvider = watch_providers[0];
-                boolean isChecked = ((CheckBox) v).isChecked();
-                if(isChecked)
-                    matchViewModel.getMP().addWatchProviderToList(watchProvider);
-                else
-                    matchViewModel.getMP().removeWatchProviderFromList(watchProvider);
-            }});
-        wp_cb_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchViewModel.setWPVal(watch_providers[1],
-                        ((CheckBox) v).isChecked());
-                String watchProvider = watch_providers[1];
-                boolean isChecked = ((CheckBox) v).isChecked();
-                if(isChecked)
-                    matchViewModel.getMP().addWatchProviderToList(watchProvider);
-                else
-                    matchViewModel.getMP().removeWatchProviderFromList(watchProvider);
-            }});
-        wp_cb_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchViewModel.setWPVal(watch_providers[2],
-                        ((CheckBox) v).isChecked());
-                String watchProvider = watch_providers[2];
-                boolean isChecked = ((CheckBox) v).isChecked();
-                if(isChecked)
-                    matchViewModel.getMP().addWatchProviderToList(watchProvider);
-                else
-                    matchViewModel.getMP().removeWatchProviderFromList(watchProvider);
-            }});
-        wp_cb_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                matchViewModel.setWPVal(watch_providers[3],
-                        ((CheckBox) v).isChecked());
-                String watchProvider = watch_providers[3];
-                boolean isChecked = ((CheckBox) v).isChecked();
-                if(isChecked)
-                    matchViewModel.getMP().addWatchProviderToList(watchProvider);
-                else
-                    matchViewModel.getMP().removeWatchProviderFromList(watchProvider);
-            }});
-        wp_cb_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchViewModel.setWPVal(watch_providers[4],
-                        ((CheckBox) v).isChecked());
-                String watchProvider = watch_providers[4];
-                boolean isChecked = ((CheckBox) v).isChecked();
-                if(isChecked)
-                    matchViewModel.getMP().addWatchProviderToList(watchProvider);
-                else
-                    matchViewModel.getMP().removeWatchProviderFromList(watchProvider);
-            }});
 
         runtime_min = root.findViewById(R.id.runtime_min);
         runtime_max = root.findViewById(R.id.runtime_max);
@@ -384,23 +310,6 @@ public class MatchFragment extends Fragment {
                 ((qrMP.getRating_max() / DEF_HIGHEST_RATING) * rating_max.getMax())
         );
 
-        // Sets the Watch Providers
-        boolean[] wp_vals = { false, false, false, false, false };
-        try {
-            HashMap<Integer, Boolean> wp = qrMP.getWatch_providers_to_include();
-            for (int i = 0; i < watch_providers.length; ++i) {
-                wp_vals[i] = wp.get(matchViewModel.getWPID(watch_providers[i]));
-            }
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            Arrays.fill(wp_vals, false);
-        }
-        wp_cb_0.setChecked(wp_vals[0]);
-        wp_cb_1.setChecked(wp_vals[1]);
-        wp_cb_2.setChecked(wp_vals[2]);
-        wp_cb_3.setChecked(wp_vals[3]);
-        wp_cb_4.setChecked(wp_vals[4]);
-
         // Sets the runtime
         runtime_min.setText(String.valueOf(qrMP.getRuntime_min()));
         runtime_max.setText(String.valueOf(qrMP.getRuntime_max()));
@@ -410,21 +319,41 @@ public class MatchFragment extends Fragment {
         vote_count_max.setText(String.valueOf(qrMP.getVote_count_max()));
 
         // Sets the Language
-        boolean languageFound = false;
-        for (int i = 0; i < languagesGrid.getAdapter().getItemCount(); ++i) {
-            RadioButton rb =
-                    (RadioButton) languagesGrid.findViewHolderForAdapterPosition(i).itemView;
-            if (String.valueOf(rb.getText()).equals(
-                    matchViewModel.getLanguageFromID(qrMP.getSelected_language_code()))
-            ) {
-                rb.setChecked(true);
-                languageFound = true;
-                break;
+        int count = 0;
+        for(String language: matchViewModel.getLanguages_list().getValue())
+        {
+
+            if(language.equals(qrMP.getSelected_language_name())){
+                languagesSpinner.setSelection(count);
             }
+            count++;
         }
-        if(!languageFound){
-            matchViewModel.setSelectedLanguage("English");
+
+        // Sets the WatchProviders
+        count = 0;
+        for(String watchProvider: matchViewModel.getWatchProviders_list().getValue())
+        {
+
+            if(watchProvider.equals(qrMP.getSelected_watch_provider_name())){
+                watchProvidersSpinner.setSelection(count);
+            }
+            count++;
         }
+//        boolean languageFound = false;
+//        for (int i = 0; i < languagesGrid.getAdapter().getItemCount(); ++i) {
+//            RadioButton rb =
+//                    (RadioButton) languagesGrid.findViewHolderForAdapterPosition(i).itemView;
+//            if (String.valueOf(rb.getText()).equals(
+//                    matchViewModel.getLanguageFromID(qrMP.getSelected_language_code()))
+//            ) {
+//                rb.setChecked(true);
+//                languageFound = true;
+//                break;
+//            }
+//        }
+//        if(!languageFound){
+//            matchViewModel.setSelectedLanguage("English");
+//        }
     }
 
     public void setMoviePreferences() {
@@ -525,6 +454,68 @@ public class MatchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        languagesSpinner = view.findViewById(R.id.spinner_languages);
+        matchViewModel.getLanguages_list().observe(
+                getViewLifecycleOwner(),
+                new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> languages) {
+                        //Log.d("LANGUAGE","in OnChanged for languages");
+                        populateSpinnerLanguages();
+                    }
+                }
+        );
+        populateSpinnerLanguages();
+
+        languagesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                matchViewModel.setSelectedLanguage((String) adapterView.getItemAtPosition(i));
+                /*selectedLanguage = (String) adapterView.getItemAtPosition(i);
+                usersNearby.clear();
+
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));
+                discoverViewModel.getAllMoviesNearby(radius, requireActivity());
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        watchProvidersSpinner = view.findViewById(R.id.spinner_watch_providers);
+        matchViewModel.getWatchProviders_list().observe(
+                getViewLifecycleOwner(),
+                new Observer<List<String>>() {
+                    @Override
+                    public void onChanged(List<String> watchProviders) {
+                        //Log.d("WATCH_PROVIDER","in OnChanged for watchProviders");
+                        populateSpinnerWatchProviders();
+                    }
+                }
+        );
+        populateSpinnerWatchProviders();
+
+        watchProvidersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                matchViewModel.setSelectedWatchProvider((String) adapterView.getItemAtPosition(i));
+                /*selectedWatchProvider = (String) adapterView.getItemAtPosition(i);
+                usersNearby.clear();
+
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));
+                discoverViewModel.getAllMoviesNearby(radius, requireActivity());
+                Log.d("hasObserver", String.valueOf(discoverViewModel.getDiscoverMovieList().hasObservers()));*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         // Sets up the GridView for the included genres checkboxes
         includedGenresGrid = (RecyclerView)view.findViewById(R.id.included_genres_grid);
         GenresGridAdapter genresIncludedGridAdapter = new GenresGridAdapter(
@@ -542,7 +533,7 @@ public class MatchFragment extends Fragment {
                             matchViewModel.getMP().removeIncludedGenreFromList(genre);
                     }
                 });
-        includedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        includedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         includedGenresGrid.setAdapter(genresIncludedGridAdapter);
 
         // Sets up the GridView for the excluded genres checkboxes
@@ -562,7 +553,7 @@ public class MatchFragment extends Fragment {
                     }
                 }
         );
-        excludedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        excludedGenresGrid.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         excludedGenresGrid.setAdapter(genresExcludedGridAdapter);
 
         // Observes the LiveData for when the genres change in the ViewModel
@@ -577,43 +568,43 @@ public class MatchFragment extends Fragment {
                 });
 
         // Sets up the GridView for the languages radiobuttons grid
-        languagesGrid = (RecyclerView)view.findViewById(R.id.languages_recyclerview);
-        LanguagesGridAdapter languagesGridAdapter = new LanguagesGridAdapter(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        String language = buttonView.getText().toString();
-                        Log.d("LANGUAGE","in OnCheckedChanged " + language);
-                        if(isChecked && !matchViewModel.getSelectedLanguage()
-                                .getValue()
-                                .equals(language)) {
-                            matchViewModel.setSelectedLanguage(language);
-                        }
-                    }
-                }
-        );
-        languagesGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        languagesGrid.setAdapter(languagesGridAdapter);
-        matchViewModel.getLanguages().observe(
-                getViewLifecycleOwner(),
-                new Observer<List<LanguageResponse>>() {
-                    @Override
-                    public void onChanged(List<LanguageResponse> languageResponses) {
-                        //Log.d("LANGUAGE","in OnChanged for languages");
-                        languagesGridAdapter.setLanguages(languageResponses);
-                    }
-                }
-        );
-        matchViewModel.getSelectedLanguage().observe(
-                getViewLifecycleOwner(),
-                new Observer<String>() {
-                    @Override
-                    public void onChanged(String selectedLanguage) {
-                        Log.d("LANGUAGE","in OnChanged: " + selectedLanguage);
-                        languagesGridAdapter.setSelectedLanguage(selectedLanguage);
-                    }
-                }
-        );
+//        languagesGrid = (RecyclerView)view.findViewById(R.id.languages_recyclerview);
+//        LanguagesGridAdapter languagesGridAdapter = new LanguagesGridAdapter(
+//                new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        String language = buttonView.getText().toString();
+//                        Log.d("LANGUAGE","in OnCheckedChanged " + language);
+//                        if(isChecked && !matchViewModel.getSelectedLanguage()
+//                                .getValue()
+//                                .equals(language)) {
+//                            matchViewModel.setSelectedLanguage(language);
+//                        }
+//                    }
+//                }
+//        );
+//        languagesGrid.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+//        languagesGrid.setAdapter(languagesGridAdapter);
+//        matchViewModel.getLanguages().observe(
+//                getViewLifecycleOwner(),
+//                new Observer<List<LanguageResponse>>() {
+//                    @Override
+//                    public void onChanged(List<LanguageResponse> languageResponses) {
+//                        //Log.d("LANGUAGE","in OnChanged for languages");
+//                        languagesGridAdapter.setLanguages(languageResponses);
+//                    }
+//                }
+//        );
+//        matchViewModel.getSelectedLanguage().observe(
+//                getViewLifecycleOwner(),
+//                new Observer<String>() {
+//                    @Override
+//                    public void onChanged(String selectedLanguage) {
+//                        Log.d("LANGUAGE","in OnChanged: " + selectedLanguage);
+//                        languagesGridAdapter.setSelectedLanguage(selectedLanguage);
+//                    }
+//                }
+//        );
 
         // Sets the UI to its default state
         matchViewModel.getMP().resetMatchPreference();
@@ -648,5 +639,29 @@ public class MatchFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void populateSpinnerLanguages() {
+        languagesArray = new String[matchViewModel.getLanguages_list().getValue().size()];
+        Log.d("SPINNER", String.valueOf(matchViewModel.getLanguages_list()));
+        languagesArray = matchViewModel.getLanguages_list().getValue().toArray(languagesArray);
+        ArrayAdapter<String> rangeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, languagesArray);
+        rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languagesSpinner.setAdapter(rangeAdapter);
+        languagesSpinner.setSelection(40);
+        matchViewModel.setSelectedLanguage("English");
+
+    }
+
+    private void populateSpinnerWatchProviders() {
+        watchProvidersArray = new String[matchViewModel.getWatchProviders_list().getValue().size()];
+        Log.d("SPINNER", String.valueOf(matchViewModel.getWatchProviders_list()));
+        watchProvidersArray = matchViewModel.getWatchProviders_list().getValue().toArray(watchProvidersArray);
+        ArrayAdapter<String> rangeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, watchProvidersArray);
+        rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        watchProvidersSpinner.setAdapter(rangeAdapter);
+        //watchProvidersSpinner.setSelection(88888888);
+        //matchViewModel.setSelectedWatchProvider("Netflix");
+
     }
 }

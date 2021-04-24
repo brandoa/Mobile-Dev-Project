@@ -49,6 +49,7 @@ import com.usf_mobile_dev.filmfriend.data_sources.local_db.MatchPreferencesDao;
 import com.usf_mobile_dev.filmfriend.data_sources.local_db.MovieDao;
 import com.usf_mobile_dev.filmfriend.data_sources.local_db.MovieRoomDatabase;
 import com.usf_mobile_dev.filmfriend.data_sources.local_db.RoomCallback;
+import com.usf_mobile_dev.filmfriend.data_sources.tmdb_api.WatchProviderResponse;
 import com.usf_mobile_dev.filmfriend.ui.discover.DiscoverViewModel;
 import com.usf_mobile_dev.filmfriend.data_sources.data_classes.MatchPreferences;
 
@@ -430,6 +431,19 @@ public class MovieRepository
             @Override
             public void run() {
                 TMDBApi.getLanguages(languageCallback, callbackExecutor, api_key);
+            }
+        });
+    }
+
+    public void getTMDBWatchProviders(
+            final Callback<WatchProviderResponse> watchProviderCallback,
+            final Executor callbackExecutor,
+            final String api_key
+    ) {
+        threadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                TMDBApi.getWatchProviders(watchProviderCallback, callbackExecutor, api_key);
             }
         });
     }

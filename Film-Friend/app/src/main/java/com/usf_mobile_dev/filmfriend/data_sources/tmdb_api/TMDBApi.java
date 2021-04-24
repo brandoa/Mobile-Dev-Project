@@ -48,12 +48,12 @@ public class TMDBApi {
                 || preferences.getNumSelectedExcludedGenres() == 0)
             excludedGenresString = null;
 
-        String watchProvidersStr = preferences.getWatchProvidersString();
-        if(preferences.getNumSelectedWatchProviders() == 0)
-            watchProvidersStr = null;
+        String watchProviderCode = String.valueOf(preferences.getSelected_watch_provider_code());
+        if(watchProviderCode == null || watchProviderCode.equals("-1"))
+            watchProviderCode = null;
 
         String selectedLanguage = preferences.getSelected_language_code();
-        if(selectedLanguage == null || selectedLanguage.equals(""))
+        if(selectedLanguage == null || selectedLanguage.equals("ANY_LANGUAGE"))
             selectedLanguage = null;
 
         Call<DiscoverResponse> discoverCall = tmdbInterface.discoverMovie(
@@ -69,7 +69,7 @@ public class TMDBApi {
                 excludedGenresString,
                 preferences.getRuntime_min(),
                 preferences.getRuntime_max(),
-                watchProvidersStr,
+                watchProviderCode,
                 "US",
                 selectedLanguage
         );
@@ -115,12 +115,12 @@ public class TMDBApi {
                         || preferences.getNumSelectedExcludedGenres() == 0)
                     excludedGenresString = null;
 
-                String watchProvidersStr = preferences.getWatchProvidersString();
-                if(preferences.getNumSelectedWatchProviders() == 0)
-                    watchProvidersStr = null;
+                String watchProviderCode = String.valueOf(preferences.getSelected_watch_provider_code());
+                if(watchProviderCode == null || watchProviderCode.equals("-1"))
+                    watchProviderCode = null;
 
                 String selectedLanguage = preferences.getSelected_language_code();
-                if(selectedLanguage == null || selectedLanguage.equals(""))
+                if(selectedLanguage == null || selectedLanguage.equals("ANY_LANGUAGE"))
                     selectedLanguage = null;
 
                 TMDBInterface tmdbInterface = TMDBClient
@@ -140,7 +140,7 @@ public class TMDBApi {
                         excludedGenresString,
                         preferences.getRuntime_min(),
                         preferences.getRuntime_max(),
-                        watchProvidersStr,
+                        watchProviderCode,
                         "US",
                         selectedLanguage
                 );
@@ -186,5 +186,24 @@ public class TMDBApi {
         );
 
         languageCall.enqueue(languageCallback);
+    }
+
+    public static void getWatchProviders(
+            Callback<WatchProviderResponse> watchProviderCallback,
+            Executor callbackExecutor,
+            String api_key
+    ) {
+        TMDBInterface tmdbInterface = TMDBClient
+                .getClient(callbackExecutor)
+                .create(TMDBInterface.class);
+
+        Call<WatchProviderResponse> watchProviderCall
+                = tmdbInterface.getWatchProviders(
+                        api_key,
+                        "en-US",
+                        "US"
+                    );
+
+        watchProviderCall.enqueue(watchProviderCallback);
     }
 }

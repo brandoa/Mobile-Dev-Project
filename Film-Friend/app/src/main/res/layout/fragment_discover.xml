@@ -10,12 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_view_margins"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/default_view_margins"
+            android:layout_weight="5"
             android:text="@string/find_movies_within" />
 
         <Spinner
@@ -23,13 +26,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="15dp"/>
+            android:layout_margin="@dimen/default_view_margins"
+            android:layout_weight="2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/default_view_margins"
+            android:layout_weight="3"
             android:text="@string/kilometers" />
+
     </LinearLayout>
 
     <!--<TextView
@@ -42,13 +49,11 @@
         android:id="@+id/discover_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="55dp"
         android:layout_marginRight="16dp"
-        tools:listitem="@layout/item_movie_listing">
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_marginBottom="10dp"
+        tools:listitem="@layout/item_movie_listing"></androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -64,8 +64,8 @@ public class ViewMatchPreferencesActivity extends AppCompatActivity
                     .setText(String.format("%.1f", mp.getRating_min()));
             ((TextView)findViewById(R.id.txtViewRatingUpperBound))
                     .setText(String.format("%.1f", mp.getRating_max()));
-            watchProvidersRecyclerView = ((RecyclerView)
-                    findViewById(R.id.watch_providers_recyclerview));
+            ((TextView)findViewById(R.id.txtViewChosenWatchProvider))
+                    .setText(String.valueOf(mp.getSelected_watch_provider_name()));
             ((TextView)findViewById(R.id.txtViewRuntimeLowerBound))
                     .setText(String.valueOf(mp.getRuntime_min()));
             ((TextView)findViewById(R.id.txtViewRuntimeUpperBound))
@@ -106,21 +106,6 @@ public class ViewMatchPreferencesActivity extends AppCompatActivity
                 );
             excludedGenresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             excludedGenresRecyclerView.setAdapter(excludedGenresAdapter);
-
-            // Sets up the watch providers recyclerview
-            StringRecyclerViewAdapter watchProvidersAdapter;
-            if(mp.getWatch_providers_list().isEmpty())
-                watchProvidersAdapter = new StringRecyclerViewAdapter(
-                        this,
-                        new ArrayList<>(Arrays.asList("Any"))
-                );
-            else
-                watchProvidersAdapter = new StringRecyclerViewAdapter(
-                        this,
-                        mp.getWatch_providers_list()
-                );
-            watchProvidersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            watchProvidersRecyclerView.setAdapter(watchProvidersAdapter);
 
             // Adds functionality to the button to send the match preferences back
             //   to be displayed in the match fragment

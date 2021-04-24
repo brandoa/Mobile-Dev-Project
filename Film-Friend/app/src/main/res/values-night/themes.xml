@@ -29,4 +29,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="ButtonIconTheme" parent="Widget.AppCompat.ActionButton">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="TutorialIconTheme" parent="Theme.FilmFriend">
+        <item name="android:tint">@color/colorSecondary</item>
+    </style>
 </resources>

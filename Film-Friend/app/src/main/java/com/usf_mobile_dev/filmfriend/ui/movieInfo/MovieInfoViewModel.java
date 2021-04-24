@@ -63,6 +63,7 @@ public class MovieInfoViewModel extends AndroidViewModel {
     public static final String INTENT_EXTRAS_MOVIE_DATA = "com.usf_mobile_dev.filmfriend.intent.extras.movie_data";
     public static final String INTENT_EXTRAS_ACTIVITY_MODE = "com.usf_mobile_dev.filmfriend.intent.extras.movie_info_activity_mode";
     public static final String INTENT_EXTRAS_MOVIE_PREFERENCES = "com.usf_mobile_dev.filmfriend.intent.extras.movie_preferences";
+    public static final String MOVIE_BASE_URL = "https://www.themoviedb.org/movie/";
     public final static int ENABLE_FINE_LOCATION = 1;
     public final static int ENABLE_COARSE_LOCATION = 2;
 
@@ -605,6 +606,18 @@ public class MovieInfoViewModel extends AndroidViewModel {
             return R.string.empty_string;
     }
 
+    // Returns the URL to the current movie, or just a default URL if the current
+    //   movie is null.
+    public String getCurrentMovieUrl() {
+        Movie movie = currentMovie.getValue();
+
+        // Returns either the URL to the current movie, or the default URL
+        if(movie != null)
+            return MOVIE_BASE_URL.concat(movie.getTmdbMovieIdAsStr());
+        else
+            return MOVIE_BASE_URL;
+    }
+
     // Removes the LiveData observers on the repository before this
     //   ViewModel is destroyed.
     @Override
@@ -613,6 +626,4 @@ public class MovieInfoViewModel extends AndroidViewModel {
 
         movieRepository.getAllMovies().removeObserver(allMoviesObserver);
     }
-
-
 }
