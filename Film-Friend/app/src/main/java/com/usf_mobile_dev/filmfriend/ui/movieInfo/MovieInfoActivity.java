@@ -1,7 +1,10 @@
 package com.usf_mobile_dev.filmfriend.ui.movieInfo;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.util.Log;
 import android.widget.ImageView;
@@ -13,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.usf_mobile_dev.filmfriend.data_sources.data_classes.Movie;
 import com.usf_mobile_dev.filmfriend.data_sources.data_classes.MovieListing;
 import com.usf_mobile_dev.filmfriend.R;
@@ -40,6 +44,8 @@ public class MovieInfoActivity extends AppCompatActivity implements ActivityComp
     private Button newMovieBtn;
     private Button watchMovieBtn;
     private Movie newMovie;
+    private FloatingActionButton shareFab;
+    private FloatingActionButton openInBrowserFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class MovieInfoActivity extends AppCompatActivity implements ActivityComp
         mMovieBanner = findViewById(R.id.movie_banner);
         newMovieBtn = findViewById(R.id.button_new_movie);
         watchMovieBtn = findViewById(R.id.button_watch_movie);
+        shareFab = findViewById(R.id.share_movie_fab);
+        openInBrowserFab = findViewById(R.id.open_in_browser_fab);
 
         if(getIntent().getExtras() != null) {
             newMovie = (Movie)getIntent()
@@ -120,10 +128,28 @@ public class MovieInfoActivity extends AppCompatActivity implements ActivityComp
                 .getNewMovieBtnOnClickListener());
         newMovieBtn.setVisibility(movieInfoViewModel
                 .getNewMovieBtnVisibility());
+
+        // Sets the click handler and visibility for the watch movie button
         watchMovieBtn.setOnClickListener(movieInfoViewModel
                 .getWatchMovieBtnOnClickListener());
         watchMovieBtn.setVisibility(movieInfoViewModel
                 .getWatchMovieBtnVisibility());
+
+        // Sets the click handler for the share FAB
+        shareFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareMovieUrl();
+            }
+        });
+
+        // Sets the click handler for the open in browser FAB
+        openInBrowserFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMovieInBrowser();
+            }
+        });
     }
 
     @Override
@@ -161,7 +187,7 @@ public class MovieInfoActivity extends AppCompatActivity implements ActivityComp
 
     }
 
-  
+
     // Sets the UI elements of this activity to show info for a new movie
     public void setMovieDetails(Movie newMovie) {
         this.newMovie = newMovie;
@@ -186,10 +212,36 @@ public class MovieInfoActivity extends AppCompatActivity implements ActivityComp
         Glide.with(this)
                 .load(backdropUrl)
                 .into(mMovieBanner);
-  
+
     }
 
-  
+
+    // Opens the share screen to let the user share the URL for the current movie.
+    public void shareMovieUrl() {
+        Intent sendUrlIntent = new Intent();
+
+        sendUrlIntent.setAction(Intent.ACTION_SEND);
+        sendUrlIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                movieInfoViewModel.getCurrentMovieUrl()
+        );
+        sendUrlIntent.setType("text/plain");
+
+        Intent shareUrlIntent = Intent.createChooser(sendUrlIntent, null);
+        startActivity(shareUrlIntent);
+    }
+
+
+    // Opens the TMDB page for the current movie in the browser. It is also
+    //   possible for the default TMDB 'movies' page to be opened if the
+    //   current movie is null for some reason.
+    public void openMovieInBrowser() {
+        Intent openUrlIntent = new Intent(Intent.ACTION_VIEW);
+        openUrlIntent.setData(Uri.parse(movieInfoViewModel.getCurrentMovieUrl()));
+        startActivity(openUrlIntent);
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions,
                                            @NotNull int[] grantResults) {

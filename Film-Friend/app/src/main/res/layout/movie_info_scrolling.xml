@@ -36,6 +36,26 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".8" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/share_movie_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_share"
+        app:layout_constraintBottom_toTopOf="@id/open_in_browser_fab"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/open_in_browser_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_browser"
+        app:layout_constraintBottom_toTopOf="@id/movie_info_buttons_layout"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/movie_info_buttons_layout"
         android:layout_width="match_parent"
